@@ -20,6 +20,11 @@ void PhysicalReset::ResetExtensionVariable(ExecutionContext &context, DBConfig &
 }
 
 SourceResultType PhysicalReset::GetData(ExecutionContext &context, DataChunk &chunk, OperatorSourceInput &input) const {
+
+	if(context.client.IsSafeMode()) {
+		throw PermissionException("RESET is disabled in safe mode");
+	}
+
 	auto &config = DBConfig::GetConfig(context.client);
 	config.CheckLock(name);
 	auto option = DBConfig::GetOptionByName(name);

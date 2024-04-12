@@ -33,6 +33,9 @@ BoundStatement Binder::BindCopyTo(CopyStatement &stmt) {
 	if (!config.options.enable_external_access) {
 		throw PermissionException("COPY TO is disabled by configuration");
 	}
+	if(context.IsSafeMode()) {
+		throw PermissionException("COPY TO is disabled in safe mode");
+	}
 	BoundStatement result;
 	result.types = {LogicalType::BIGINT};
 	result.names = {"Count"};
@@ -167,6 +170,9 @@ BoundStatement Binder::BindCopyFrom(CopyStatement &stmt) {
 	auto &config = DBConfig::GetConfig(context);
 	if (!config.options.enable_external_access) {
 		throw PermissionException("COPY FROM is disabled by configuration");
+	}
+	if(context.IsSafeMode()) {
+		throw PermissionException("COPY FROM is disabled in safe mode");
 	}
 	BoundStatement result;
 	result.types = {LogicalType::BIGINT};

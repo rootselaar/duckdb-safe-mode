@@ -27,6 +27,9 @@ vector<string> MultiFileReader::GetFileList(ClientContext &context, const Value 
 	if (!config.options.enable_external_access) {
 		throw PermissionException("Scanning %s files is disabled through configuration", name);
 	}
+	if(context.IsSafeMode()) {
+		throw PermissionException("Scanning %s files is disabled in safe mode", name);
+	}
 	if (input.IsNull()) {
 		throw ParserException("%s reader cannot take NULL list as parameter", name);
 	}

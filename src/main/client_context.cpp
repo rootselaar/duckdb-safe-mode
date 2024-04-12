@@ -456,7 +456,7 @@ void ClientContext::CheckIfPreparedStatementIsExecutable(PreparedStatementData &
 		if (!entry) {
 			throw InternalException("Database \"%s\" not found", modified_database);
 		}
-		if (entry->IsReadOnly()) {
+		if (entry->IsReadOnly() || IsSafeMode()) {
 			throw InvalidInputException(StringUtil::Format(
 			    "Cannot execute statement of type \"%s\" on database \"%s\" which is attached in read-only mode!",
 			    StatementTypeToString(statement.statement_type), modified_database));

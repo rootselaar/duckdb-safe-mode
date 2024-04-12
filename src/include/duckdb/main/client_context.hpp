@@ -176,6 +176,17 @@ public:
 	DUCKDB_API bool IsActiveResult(ClientContextLock &lock, BaseQueryResult &result);
 	DUCKDB_API void SetActiveResult(ClientContextLock &lock, BaseQueryResult &result);
 
+    // DUCKDB_API ??
+	bool IsSafeMode() {
+		return safe_mode;   
+	}
+ 
+    // DUCKDB_API ??
+	void setSafeMode() {
+		safe_mode=true;
+	} 
+	 
+
 	//! Returns the current executor
 	Executor &GetExecutor();
 
@@ -275,6 +286,8 @@ private:
 	unique_ptr<ActiveQueryContext> active_query;
 	//! The current query progress
 	QueryProgress query_progress;
+	// ! When true, no persistent changes can be made to the database or the host system (only temporary structures can be made through this connection)
+	bool safe_mode { false };
 };
 
 class ClientContextLock {

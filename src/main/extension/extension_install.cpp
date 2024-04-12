@@ -3,6 +3,7 @@
 #include "duckdb/common/string_util.hpp"
 #include "duckdb/common/exception/http_exception.hpp"
 #include "duckdb/main/extension_helper.hpp"
+#include "duckdb/main/client_context.hpp"
 
 #ifndef DISABLE_DUCKDB_REMOTE_INSTALL
 #ifndef DUCKDB_DISABLE_EXTENSION_LOAD
@@ -144,6 +145,9 @@ void ExtensionHelper::InstallExtension(ClientContext &context, const string &ext
 	// Install is currently a no-op
 	return;
 #endif
+	if(context.IsSafeMode()) {
+		throw PermissionException("Installing extensions is disabled in safe mode");
+	}
 	auto &config = DBConfig::GetConfig(context);
 	auto &fs = FileSystem::GetFileSystem(context);
 	string local_path = ExtensionDirectory(context);

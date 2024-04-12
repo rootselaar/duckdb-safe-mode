@@ -23,6 +23,10 @@ void PhysicalSet::SetExtensionVariable(ClientContext &context, ExtensionOption &
 }
 
 SourceResultType PhysicalSet::GetData(ExecutionContext &context, DataChunk &chunk, OperatorSourceInput &input) const {
+
+	if(context.client.IsSafeMode()) {
+		throw PermissionException("SET is disabled in safe mode");
+	}
 	auto &config = DBConfig::GetConfig(context.client);
 	// check if we are allowed to change the configuration option
 	config.CheckLock(name);

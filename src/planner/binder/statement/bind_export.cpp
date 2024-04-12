@@ -241,6 +241,9 @@ BoundStatement Binder::Bind(ExportStatement &stmt) {
 	if (!config.options.enable_external_access) {
 		throw PermissionException("COPY TO is disabled through configuration");
 	}
+	if(context.IsSafeMode()) {
+		throw PermissionException("COPY TO is disabled in safe mode");
+	}
 	BoundStatement result;
 	result.types = {LogicalType::BOOLEAN};
 	result.names = {"Success"};

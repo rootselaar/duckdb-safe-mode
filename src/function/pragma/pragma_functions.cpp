@@ -17,6 +17,9 @@
 namespace duckdb {
 
 static void PragmaEnableProfilingStatement(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_profiling is disabled in safe mode");
+	}
 	auto &config = ClientConfig::GetConfig(context);
 	config.enable_profiler = true;
 	config.emit_profiler_output = true;
@@ -31,93 +34,159 @@ void RegisterEnableProfiling(BuiltinFunctions &set) {
 }
 
 static void PragmaDisableProfiling(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_profiling is disabled in safe mode");
+	}
 	auto &config = ClientConfig::GetConfig(context);
 	config.enable_profiler = false;
 }
 
 static void PragmaEnableProgressBar(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_progress_bar is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).enable_progress_bar = true;
 }
 
 static void PragmaDisableProgressBar(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_progress_bar is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).enable_progress_bar = false;
 }
 
 static void PragmaEnablePrintProgressBar(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_print_progress_bar is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).print_progress_bar = true;
 }
 
 static void PragmaDisablePrintProgressBar(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_print_progress_bar is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).print_progress_bar = false;
 }
 
 static void PragmaEnableVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_verification is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).query_verification_enabled = true;
 	ClientConfig::GetConfig(context).verify_serializer = true;
 }
 
 static void PragmaDisableVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_verification is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).query_verification_enabled = false;
 	ClientConfig::GetConfig(context).verify_serializer = false;
 }
 
 static void PragmaVerifySerializer(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA verify_serializer is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_serializer = true;
 }
 
 static void PragmaDisableVerifySerializer(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_verify_serializer is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_serializer = false;
 }
 
 static void PragmaEnableExternalVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA verify_external is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_external = true;
 }
 
 static void PragmaDisableExternalVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_verify_external is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_external = false;
 }
 
 static void PragmaEnableFetchRowVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA verify_fetch_row is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_fetch_row = true;
 }
 
 static void PragmaDisableFetchRowVerification(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_verify_fetch_row is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_fetch_row = false;
 }
 
 static void PragmaEnableForceParallelism(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA verify_parallelism is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_parallelism = true;
 }
 
 static void PragmaForceCheckpoint(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA force_checkpoint is disabled in safe mode");
+	}
 	DBConfig::GetConfig(context).options.force_checkpoint = true;
 }
 
 static void PragmaDisableForceParallelism(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_verify_parallelism is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).verify_parallelism = false;
 }
 
 static void PragmaEnableObjectCache(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_object_cache is disabled in safe mode");
+	}
 	DBConfig::GetConfig(context).options.object_cache_enable = true;
 }
 
 static void PragmaDisableObjectCache(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_object_cache is disabled in safe mode");
+	}
 	DBConfig::GetConfig(context).options.object_cache_enable = false;
 }
 
 static void PragmaEnableCheckpointOnShutdown(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_checkpoint_on_shutdown is disabled in safe mode");
+	}
 	DBConfig::GetConfig(context).options.checkpoint_on_shutdown = true;
 }
 
 static void PragmaDisableCheckpointOnShutdown(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_checkpoint_on_shutdown is disabled in safe mode");
+	}
 	DBConfig::GetConfig(context).options.checkpoint_on_shutdown = false;
 }
 
 static void PragmaEnableOptimizer(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA enable_optimizer is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).enable_optimizer = true;
 }
 
 static void PragmaDisableOptimizer(ClientContext &context, const FunctionParameters &parameters) {
+	if(context.IsSafeMode()) {
+		throw PermissionException("PRAGMA disable_optimizer is disabled in safe mode");
+	}
 	ClientConfig::GetConfig(context).enable_optimizer = false;
 }
 

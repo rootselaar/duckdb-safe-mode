@@ -132,6 +132,9 @@ string PragmaImportDatabase(ClientContext &context, const FunctionParameters &pa
 	if (!config.options.enable_external_access) {
 		throw PermissionException("Import is disabled through configuration");
 	}
+	if(context.IsSafeMode()) {
+		throw PermissionException("Import is disabled in safe mode");
+	}
 	auto &fs = FileSystem::GetFileSystem(context);
 
 	string final_query;
